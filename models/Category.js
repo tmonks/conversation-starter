@@ -1,20 +1,20 @@
 const mongoose = require("mongoose");
 
 // Question Schema
-const QuestionSchema = {
+const PromptSchema = {
   text: {
     type: String,
     require: true
   }
 };
 
-// List Schema
-let listSchema = mongoose.Schema({
+// Category Schema
+let CategorySchema = mongoose.Schema({
   title: {
     type: String,
     required: true
   },
-  questions: [QuestionSchema]
+  prompts: [PromptSchema]
 });
 
-module.exports = mongoose.model("List", listSchema);
+module.exports = mongoose.model("Category", CategorySchema);

@@ -2,7 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 
-const lists = require("./routes/api/lists");
+const categories = require("./routes/api/categories");
 
 // Config & Connect Database
 const dbConfig = {
@@ -24,14 +24,10 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-// Load Models
-// const List = require("./models/list");
+// Send any requests in '/api/categories' to 'categories.js'
+app.use("/api/categories", categories);
 
-// Setup routes
-
-// Send any requests in '/api/lists' to 'lists.js'
-app.use("/api/lists", lists);
-
+// Default root route
 app.get("/", (req, res) => {
   res.sendFile(process.cwd() + "/views/index.html");
 });

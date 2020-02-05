@@ -2,7 +2,7 @@
   "name": "conversation-starters",
   "version": "1.0.0",
   "description": "Family conversation starters app built with the MERN stack",
-  "main": "app.js",
+  "main": "server.js",
   "scripts": {
     "start": "node server.js",
     "server": "nodemon server.js"
