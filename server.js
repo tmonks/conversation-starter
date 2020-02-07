@@ -3,11 +3,13 @@ const express = require("express");
 const mongoose = require("mongoose");
 
 const categories = require("./routes/api/categories");
+const prompts = require("./routes/api/prompts");
 
 // Config & Connect Database
 const dbConfig = {
   useNewUrlParser: true,
-  useUnifiedTopology: true
+  useUnifiedTopology: true,
+  useCreateIndex: true
 };
 mongoose.connect(process.env.DB, dbConfig);
 let db = mongoose.connection;
@@ -26,6 +28,12 @@ app.use(express.urlencoded({ extended: false }));
 
 // Send any requests in '/api/categories' to 'categories.js'
 app.use("/api/categories", categories);
+app.use("/api/prompts", prompts);
+
+// app.get("/api/prompts", (req, res) => {
+//   console.log("GET received in server.js");
+//   res.json({ message: "request received" });
+// });
 
 // Default root route
 app.get("/", (req, res) => {

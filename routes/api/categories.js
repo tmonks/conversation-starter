@@ -50,7 +50,7 @@ router.post(
 
     newCategory
       .save()
-      .then(results => res.json(results))
+      .then(result => res.json(result))
       .catch(err => {
         console.log(err);
         res.json({ error: "Unable to save new category" });
