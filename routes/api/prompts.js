@@ -25,27 +25,32 @@ router.get("/", (req, res) => {
 // @desc    GET a random Prompt
 // @access  Public
 router.get("/random", (req, res) => {
-  Prompt.aggregate([
-    // req.query.category_id ? { $match: { category: ObjectId(req.query.category_id) } } : null,
-    { $match: req.query.category_id ? { category: ObjectId(req.query.category_id) } : {} },
-    { $sample: { size: 1 } },
-    {
-      $lookup: { from: "categories", localField: "category", foreignField: "_id", as: "category" }
-    },
-    { $unwind: "$category" },
-    {
-      $project: {
-        "category._id": 0,
-        "category.reported": 0,
-        "category.__v": 0,
-        "category.prompts": 0 // should be able to get rid of this one
-      }
-    }
-  ])
-    .then(results => res.send(results))
+  const query = Prompt.find(req.query.category_id ? { category: req.query.category_id } : {});
+
+  query
+    .countDocuments()
+    .then(count => {
+      console.log(count + " documents found");
+
+      // calculate a random number between 0 and the document count
+      const random = Math.floor(Math.random() * count);
+
+      // retrieve one random document by skipping random number of docs
+      query
+        .findOne()
+        .skip(random)
+        .populate("category", "title -_id")
+        .then(prompt => {
+          res.json(prompt);
+        })
+        .catch(err => {
+          console.log(err);
+          res.json({ error: "Error retrieving random prompt" });
+        });
+    })
     .catch(err => {
       console.log(err);
-      res.json({ error: "error retrieving a random prompt" });
+      res.json({ error: "Error retreiving prompt count" });
     });
 });
 
