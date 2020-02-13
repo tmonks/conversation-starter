@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "./App.css";
+import "./App.scss";
 import AppNavbar from "./components/AppNavbar";
+import PromptDisplay from "./components/PromptDisplay";
 import uuid from "uuid";
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
   return (
     <div className="App">
       <AppNavbar categories={categories} />
+      <PromptDisplay />
     </div>
   );
 }

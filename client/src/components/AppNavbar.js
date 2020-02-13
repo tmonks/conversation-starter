@@ -56,20 +56,32 @@ function AppNavbar(props) {
                   </DropdownItem>
                 );
               })}
+              <DropdownItem divider />
+              <DropdownItem>Add a Prompt</DropdownItem>
+              <DropdownItem>About</DropdownItem>
             </DropdownMenu>
           </Dropdown>
-          {/* <NavbarToggler onClick={toggle} />
+          {/* 
+          <NavbarToggler onClick={toggle} />
           <Collapse isOpen={isOpen} navbar>
             <Nav className="justify-content-end" navbar>
-              {props.categories.map(cat => {
+              <NavItem>
+                <NavLink href="#">About</NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink href="#">Add New</NavLink>
+              </NavItem>
+              {/* {props.categories.map(cat => {
                 return (
                   <NavItem key={cat.id}>
                     <NavLink href="#">{cat.title}</NavLink>
                   </NavItem>
                 );
-              })}
+              })} */}
+          {/*
             </Nav>
-          </Collapse> */}
+          </Collapse>
+          */}
         </Container>
       </Navbar>
     </div>
