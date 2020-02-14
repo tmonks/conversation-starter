@@ -31,10 +31,10 @@ function AppNavbar(props) {
     <div>
       <Navbar color="dark" dark className="mb-5">
         <Container>
-          <NavbarBrand href="/">Talky Talky</NavbarBrand>
+          <NavbarBrand href="/">Conversation Starter</NavbarBrand>
 
           <Dropdown isOpen={isOpen} toggle={toggle}>
-            <DropdownToggle style={{ width: 200 }} caret>
+            <DropdownToggle style={{ width: 150 }} caret>
               {currentCategory}
             </DropdownToggle>
             <DropdownMenu>
@@ -45,17 +45,18 @@ function AppNavbar(props) {
               >
                 All Categories
               </DropdownItem>
-              {props.categories.map(cat => {
-                return (
-                  <DropdownItem
-                    key={cat.id}
-                    active={currentCategory === cat.title ? true : false}
-                    onClick={() => clickMenuItem(cat.title)}
-                  >
-                    {cat.title}
-                  </DropdownItem>
-                );
-              })}
+              {!props.isLoading &&
+                props.categories.map(cat => {
+                  return (
+                    <DropdownItem
+                      key={cat._id}
+                      active={currentCategory === cat.title ? true : false}
+                      onClick={() => clickMenuItem(cat.title)}
+                    >
+                      {cat.title}
+                    </DropdownItem>
+                  );
+                })}
               <DropdownItem divider />
               <DropdownItem>Add a Prompt</DropdownItem>
               <DropdownItem>About</DropdownItem>
