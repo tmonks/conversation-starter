@@ -16,15 +16,9 @@ import {
 
 function AppNavbar(props) {
   const [isOpen, setIsOpen] = useState(false);
-  const [currentCategory, setCurrentCategory] = useState("All Categories");
 
   const toggle = () => {
     setIsOpen(!isOpen);
-  };
-
-  const clickMenuItem = item => {
-    console.log(item + " was selected");
-    setCurrentCategory(item);
   };
 
   return (
@@ -35,13 +29,15 @@ function AppNavbar(props) {
 
           <Dropdown isOpen={isOpen} toggle={toggle}>
             <DropdownToggle style={{ width: 150 }} caret>
-              {currentCategory}
+              {props.currentCategoryId
+                ? props.categories.find(x => x._id === props.currentCategoryId).title
+                : "All Categories"}
             </DropdownToggle>
             <DropdownMenu>
               <DropdownItem
                 key="1"
-                active={currentCategory === "All Categories" ? true : false}
-                onClick={() => clickMenuItem("All Categories")}
+                active={props.currentCategoryId === null ? true : false}
+                onClick={() => props.updateCategory(null)}
               >
                 All Categories
               </DropdownItem>
@@ -50,8 +46,8 @@ function AppNavbar(props) {
                   return (
                     <DropdownItem
                       key={cat._id}
-                      active={currentCategory === cat.title ? true : false}
-                      onClick={() => clickMenuItem(cat.title)}
+                      active={props.currentCategoryId === cat._id ? true : false}
+                      onClick={() => props.updateCategory(cat._id)}
                     >
                       {cat.title}
                     </DropdownItem>

@@ -10,10 +10,12 @@ function App() {
   const [isLoadingPrompt, setIsLoadingPrompt] = useState(true);
   const [categories, setCategories] = useState([]);
   const [prompt, setPrompt] = useState({});
+  const [currentCategoryId, setCurrentCategoryId] = useState(null);
 
   const getPrompt = () => {
+    const route = "/api/prompts/random";
     axios
-      .get("/api/prompts/random")
+      .get(currentCategoryId ? route + "?category_id=" + currentCategoryId : route)
       .then(res => {
         setPrompt(res.data);
         setIsLoadingPrompt(false);
@@ -23,7 +25,12 @@ function App() {
       });
   };
 
-  // Get Categories
+  const updateCategory = categoryId => {
+    console.log("Setting categoryId to " + categoryId);
+    setCurrentCategoryId(categoryId);
+  };
+
+  // Get Categories on load
   useEffect(() => {
     axios
       .get("/api/categories")
@@ -37,14 +44,20 @@ function App() {
       });
   }, []);
 
-  // Get Prompt
+  // Get Prompt on load
   useEffect(() => {
     getPrompt();
   }, []);
 
   return (
     <div className="App">
-      <AppNavbar categories={categories} isLoading={isLoadingCategories} />
+      <AppNavbar
+        categories={categories}
+        isLoading={isLoadingCategories}
+        // clickHandler={categoryId => setCurrentCategory(categoryId)}
+        updateCategory={updateCategory}
+        currentCategoryId={currentCategoryId}
+      />
       <PromptDisplay prompt={prompt} isLoading={isLoadingPrompt} clickHandler={getPrompt} />
     </div>
   );
