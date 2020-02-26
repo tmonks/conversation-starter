@@ -10,6 +10,7 @@ import {
   NavLink,
   Container,
   Dropdown,
+  UncontrolledDropdown,
   DropdownToggle,
   DropdownMenu,
   DropdownItem
@@ -24,10 +25,11 @@ function AppNavbar(props) {
 
   return (
     <div>
-      <Navbar color="dark" dark className="mb-5">
-        <Container>
+      <Navbar color="dark" dark className="mb-5" expand="md" fixed="top">
+        <Container className="justify-content-between">
           <NavbarBrand href="/">Conversation Starter</NavbarBrand>
 
+          {/* 
           <Dropdown isOpen={isOpen} toggle={toggle}>
             <DropdownToggle style={{ width: 150 }} caret>
               {props.currentCategoryId
@@ -39,6 +41,8 @@ function AppNavbar(props) {
                 key="1"
                 active={props.currentCategoryId === null ? true : false}
                 onClick={() => props.updateCategory(null)}
+                tag={Link}
+                to="/"
               >
                 All Categories
               </DropdownItem>
@@ -49,6 +53,8 @@ function AppNavbar(props) {
                       key={cat._id}
                       active={props.currentCategoryId === cat._id ? true : false}
                       onClick={() => props.updateCategory(cat._id)}
+                      tag={Link}
+                      to="/"
                     >
                       {cat.title}
                     </DropdownItem>
@@ -62,28 +68,57 @@ function AppNavbar(props) {
                 About
               </DropdownItem>
             </DropdownMenu>
-          </Dropdown>
-          {/* 
+          </Dropdown> 
+          */}
+
           <NavbarToggler onClick={toggle} />
-          <Collapse isOpen={isOpen} navbar>
-            <Nav className="justify-content-end" navbar>
+          <Collapse className="flex-grow-0 text-center" isOpen={isOpen} navbar>
+            <Nav navbar>
               <NavItem>
-                <NavLink href="#">About</NavLink>
+                <NavLink tag={Link} to="/">
+                  Home
+                </NavLink>
+              </NavItem>
+
+              <UncontrolledDropdown nav>
+                <DropdownToggle nav caret>
+                  Category
+                </DropdownToggle>
+                <DropdownMenu>
+                  <DropdownItem
+                    key="1"
+                    active={props.currentCategoryId === null ? true : false}
+                    onClick={() => props.updateCategory(null)}
+                  >
+                    All
+                  </DropdownItem>
+                  {props.categories.map(cat => {
+                    return (
+                      <DropdownItem
+                        className="ml-auto"
+                        key={cat.id}
+                        active={props.currentCategoryId === cat._id ? true : false}
+                        onClick={() => props.updateCategory(cat._id)}
+                      >
+                        {cat.title}
+                      </DropdownItem>
+                    );
+                  })}
+                </DropdownMenu>
+              </UncontrolledDropdown>
+
+              <NavItem>
+                <NavLink tag={Link} to="/about">
+                  About
+                </NavLink>
               </NavItem>
               <NavItem>
-                <NavLink href="#">Add New</NavLink>
+                <NavLink tag={Link} to="/add">
+                  Add New
+                </NavLink>
               </NavItem>
-              {/* {props.categories.map(cat => {
-                return (
-                  <NavItem key={cat.id}>
-                    <NavLink href="#">{cat.title}</NavLink>
-                  </NavItem>
-                );
-              })} */}
-          {/*
             </Nav>
           </Collapse>
-          */}
         </Container>
       </Navbar>
     </div>

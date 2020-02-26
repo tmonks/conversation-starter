@@ -2,7 +2,7 @@ import React from "react";
 
 const AddPrompt = () => {
   return (
-    <div class="container">
+    <div className="container">
       <h4>Add a Prompt</h4>
       <p>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer quis tincidunt sem.
