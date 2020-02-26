@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import {
   Collapse,
   Navbar,
@@ -54,8 +55,12 @@ function AppNavbar(props) {
                   );
                 })}
               <DropdownItem divider />
-              <DropdownItem>Add a Prompt</DropdownItem>
-              <DropdownItem>About</DropdownItem>
+              <DropdownItem tag={Link} to="/add">
+                Add a Prompt
+              </DropdownItem>
+              <DropdownItem tag={Link} to="/about">
+                About
+              </DropdownItem>
             </DropdownMenu>
           </Dropdown>
           {/* 

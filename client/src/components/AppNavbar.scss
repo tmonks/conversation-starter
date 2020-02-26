@@ -1,0 +1,38 @@
+.container {
+  align-items: center;
+}
+
+.container > * {
+  margin: 0 auto;
+}
+
+.current {
+  color: white;
+}
+
+// .navbar button,
+// .hamburger-container {
+//   width: 200px;
+// }
+
+// @media screen and (max-width: 800px) {
+//   .dropdown {
+//     order: 3;
+//   }
+// }
+
+// .navbar button {
+//   order: 3;
+// }
+
+// .navbar-brand {
+//   order: 1;
+// }
+
+// .hamburger-container {
+//   order: 2;
+// }
+
+// .container > * {
+//   width: 200px;
+// }
