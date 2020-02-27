@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
 import {
   Collapse,
@@ -23,12 +24,49 @@ function AppNavbar(props) {
     setIsOpen(!isOpen);
   };
 
+  const closeMenu = () => {
+    setIsOpen(false);
+  };
+
+  const categoriesDropdown = (
+    <UncontrolledDropdown nav>
+      <DropdownToggle nav caret>
+        {props.currentCategoryId === null
+          ? "All Categories"
+          : props.categories.find(cat => cat._id === props.currentCategoryId).title}
+      </DropdownToggle>
+      <DropdownMenu>
+        <DropdownItem
+          key="1"
+          active={props.currentCategoryId === null ? true : false}
+          onClick={() => props.updateCategory(null)}
+        >
+          All
+        </DropdownItem>
+        {props.categories.map(cat => {
+          return (
+            <DropdownItem
+              className="ml-auto"
+              key={cat._id}
+              active={props.currentCategoryId === cat._id ? true : false}
+              onClick={() => {
+                props.updateCategory(cat._id);
+                closeMenu();
+              }}
+            >
+              {cat.title}
+            </DropdownItem>
+          );
+        })}
+      </DropdownMenu>
+    </UncontrolledDropdown>
+  );
+
   return (
     <div>
-      <Navbar color="dark" dark className="mb-5" expand="md" fixed="top">
+      <Navbar color="dark" dark className="mb-5" expand="sm" fixed="top">
         <Container className="justify-content-between">
           <NavbarBrand href="/">Conversation Starter</NavbarBrand>
-
           {/* 
           <Dropdown isOpen={isOpen} toggle={toggle}>
             <DropdownToggle style={{ width: 150 }} caret>
@@ -72,48 +110,25 @@ function AppNavbar(props) {
           */}
 
           <NavbarToggler onClick={toggle} />
-          <Collapse className="flex-grow-0 text-center" isOpen={isOpen} navbar>
+          <Collapse className="flex-grow-0" isOpen={isOpen} navbar>
             <Nav navbar>
-              <NavItem>
-                <NavLink tag={Link} to="/">
-                  Home
-                </NavLink>
-              </NavItem>
-
-              <UncontrolledDropdown nav>
-                <DropdownToggle nav caret>
-                  Category
-                </DropdownToggle>
-                <DropdownMenu>
-                  <DropdownItem
-                    key="1"
-                    active={props.currentCategoryId === null ? true : false}
-                    onClick={() => props.updateCategory(null)}
-                  >
-                    All
-                  </DropdownItem>
-                  {props.categories.map(cat => {
-                    return (
-                      <DropdownItem
-                        className="ml-auto"
-                        key={cat.id}
-                        active={props.currentCategoryId === cat._id ? true : false}
-                        onClick={() => props.updateCategory(cat._id)}
-                      >
-                        {cat.title}
-                      </DropdownItem>
-                    );
-                  })}
-                </DropdownMenu>
-              </UncontrolledDropdown>
+              {useLocation().pathname === "/" ? (
+                categoriesDropdown
+              ) : (
+                <NavItem>
+                  <NavLink onClick={closeMenu} tag={Link} to="/">
+                    Home
+                  </NavLink>
+                </NavItem>
+              )}
 
               <NavItem>
-                <NavLink tag={Link} to="/about">
+                <NavLink tag={Link} to="/about" onClick={closeMenu}>
                   About
                 </NavLink>
               </NavItem>
               <NavItem>
-                <NavLink tag={Link} to="/add">
+                <NavLink tag={Link} to="/add" onClick={closeMenu}>
                   Add New
                 </NavLink>
               </NavItem>

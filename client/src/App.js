@@ -18,6 +18,7 @@ function App() {
 
   const getPrompt = () => {
     const route = "/api/prompts/random";
+    console.log("Getting prompt from category " + currentCategoryId);
     axios
       .get(currentCategoryId ? route + "?category_id=" + currentCategoryId : route)
       .then(res => {
@@ -34,6 +35,11 @@ function App() {
     setCurrentCategoryId(categoryId);
   };
 
+  // Get Prompt on load
+  useEffect(() => {
+    getPrompt();
+  }, []);
+
   // Get Categories on load
   useEffect(() => {
     axios
@@ -48,10 +54,10 @@ function App() {
       });
   }, []);
 
-  // Get Prompt on load
+  // get a new prompt when a new category is selected
   useEffect(() => {
     getPrompt();
-  }, []);
+  }, [currentCategoryId]);
 
   return (
     <BrowserRouter>
