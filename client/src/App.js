@@ -83,7 +83,7 @@ function App() {
         />
         {/* <PromptDisplay prompt={prompt} isLoading={isLoadingPrompt} clickHandler={getPrompt} /> */}
         <Route path="/about" component={About} />
-        <Route path="/add" component={AddPrompt} />
+        <Route path="/add" render={props => <AddPrompt {...props} categories={categories} />} />
       </div>
     </BrowserRouter>
   );

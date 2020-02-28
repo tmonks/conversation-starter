@@ -1,0 +1,14 @@
+@import "./variables.scss";
+
+.content-container {
+  // text-align: center;
+  background-color: $card-background;
+  max-width: 800px;
+  margin: 0 auto;
+  border-radius: 5px;
+  padding: 32px;
+
+  h4 {
+    text-align: center;
+  }
+}

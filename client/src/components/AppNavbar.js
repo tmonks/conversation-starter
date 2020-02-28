@@ -129,7 +129,7 @@ function AppNavbar(props) {
               </NavItem>
               <NavItem>
                 <NavLink tag={Link} to="/add" onClick={closeMenu}>
-                  Add New
+                  Add
                 </NavLink>
               </NavItem>
             </Nav>
