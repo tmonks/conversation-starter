@@ -1,17 +1,22 @@
 import React from "react";
 import "./PromptDisplay.scss";
-import { Jumbotron, Button } from "reactstrap";
+import { Jumbotron, Button, Spinner } from "reactstrap";
 
 function PromptDisplay(props) {
   return (
     <div className="jumbotron-container">
       <Jumbotron>
-        <p className="category-title">{props.isLoading ? "" : props.prompt.category.title}</p>
-        <h3 className="prompt-text">{props.isLoading ? "Loading..." : props.prompt.text}</h3>
-        {/* <p classNae="lead">Would You Rather</p> */}
-        <Button color="dark" size="lg" onClick={props.clickHandler}>
-          Next
-        </Button>
+        {props.isLoading ? (
+          <Spinner style={{ width: "3rem", height: "3rem" }} />
+        ) : (
+          <div>
+            <p className="category-title">{props.isLoading ? "" : props.prompt.category.title}</p>
+            <h3 className="prompt-text">{props.isLoading ? "Loading..." : props.prompt.text}</h3>
+            <Button color="dark" size="lg" onClick={props.clickHandler}>
+              Next
+            </Button>
+          </div>
+        )}
       </Jumbotron>
     </div>
   );
