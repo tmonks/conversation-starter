@@ -68,7 +68,11 @@ router.post("/", (req, res) => {
     .then(result => res.json(result))
     .catch(err => {
       console.log(err);
-      res.json({ error: "Error saving new prompt" });
+      if (err.code === 11000) {
+        res.json({ error: "Prompt already exists" });
+      } else {
+        res.json({ error: "Error saving new prompt" });
+      }
     });
 });
 
