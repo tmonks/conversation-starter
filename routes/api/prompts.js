@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const { check, validationResult } = require("express-validator");
 
 // Prompt model
 const Prompt = require("../../models/Prompt");
@@ -57,23 +58,40 @@ router.get("/random", (req, res) => {
 // @route   POST api/prompts
 // @desc    POST new Prompt
 // @access  Public
-router.post("/", (req, res) => {
-  console.log("Request received: " + req.body.text);
-  let newPrompt = new Prompt({
-    text: req.body.text,
-    category: req.body.category_id
-  });
-  newPrompt
-    .save()
-    .then(result => res.json(result))
-    .catch(err => {
-      console.log(err);
-      if (err.code === 11000) {
-        res.json({ error: "Prompt already exists" });
-      } else {
-        res.json({ error: "Error saving new prompt" });
-      }
+router.post(
+  "/",
+  [
+    check("text")
+      .trim()
+      .isLength({ min: 20, max: 300 })
+      .escape(),
+    check("category_id")
+      .trim()
+      .isMongoId()
+  ],
+  (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      console.log(errors);
+      return res.status(422).json({ error: errors.array() });
+    }
+    console.log("Request received: " + req.body.text);
+    let newPrompt = new Prompt({
+      text: req.body.text,
+      category: req.body.category_id
     });
-});
+    newPrompt
+      .save()
+      .then(result => res.json(result))
+      .catch(err => {
+        console.log(err);
+        if (err.code === 11000) {
+          res.json({ error: "Prompt already exists" });
+        } else {
+          res.json({ error: "Error saving new prompt" });
+        }
+      });
+  }
+);
 
 module.exports = router;

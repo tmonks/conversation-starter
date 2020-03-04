@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const { check, validationResult } = require("express-validator");
 
 // Category Model
 const Category = require("../../models/Category");
@@ -33,7 +34,18 @@ router.get(
 // @access  Public
 router.post(
   "/",
-  /* async */ (req, res) => {
+  [
+    check("title")
+      .trim()
+      .isLength({ min: 4, max: 20 })
+      .escape()
+  ],
+  (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      console.log(errors);
+      return res.status(422).json({ error: errors.array() });
+    }
     console.log("Request received: " + req.body.title);
     const newCategory = new Category({ title: req.body.title });
 
