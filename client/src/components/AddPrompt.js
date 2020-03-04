@@ -20,7 +20,7 @@ const AddPrompt = props => {
   const handleSubmit = event => {
     event.preventDefault();
     axios
-      .post("/api/prompts", { category_id: category, text })
+      .post("/api/prompts", { category_id: category || props.categories[0]._id, text })
       .then(res => {
         console.log(res.data);
         if (res.data.error) {
