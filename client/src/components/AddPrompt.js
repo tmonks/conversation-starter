@@ -65,6 +65,7 @@ const AddPrompt = props => {
             <Label for="promptText">Prompt Text</Label>
             <Input
               type="textarea"
+              maxLength="300"
               name="text"
               id="promptText"
               onChange={handleChangeText}
