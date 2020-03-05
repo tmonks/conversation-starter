@@ -23,17 +23,18 @@ const AddPrompt = props => {
       .post("/api/prompts", { category_id: category || props.categories[0]._id, text })
       .then(res => {
         console.log(res.data);
-        if (res.data.error) {
-          throw new Error(res.data.error);
-        }
         setErrorMessage("");
         setText("");
         setSuccessMessage("Thank you, your conversation prompt has been added successfully.");
       })
       .catch(err => {
-        console.log(err);
+        console.log("error caught in catch statement");
+        console.log(err.response);
         setSuccessMessage("");
-        setErrorMessage("Sorry, we were unable to save your conversation prompt. " + err.message);
+        setErrorMessage(
+          "Sorry, we were unable to save your conversation prompt. " + err.response.data.error ||
+            "Unknown error"
+        );
       });
   };
 

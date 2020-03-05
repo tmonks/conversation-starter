@@ -8,6 +8,7 @@ const Category = require("../../models/Category");
 // @route   GET api/categories
 // @desc    Get All Categories
 // @access  Public
+// @parameters (none)
 router.get(
   "/",
   /* async */ (req, res) => {
@@ -32,6 +33,7 @@ router.get(
 // @route   POST api/categories
 // @desc    POST new Category
 // @access  Public
+// @parameters title
 router.post(
   "/",
   [
@@ -44,28 +46,22 @@ router.post(
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       console.log(errors);
-      return res.status(422).json({ error: errors.array() });
+      return res.status(422).json({
+        error: errors
+          .array()
+          .map(e => e.param + ": " + e.msg)
+          .join(", ")
+      });
     }
     console.log("Request received: " + req.body.title);
     const newCategory = new Category({ title: req.body.title });
-
-    /*
-  try {
-    await newCategory.save();
-    console.log("New category saved successfully");
-    res.json(newCategory);
-  } catch (err) {
-    console.log(err);
-    res.send("Error saving new list");
-  }
-  */
 
     newCategory
       .save()
       .then(result => res.json(result))
       .catch(err => {
         console.log(err);
-        res.json({ error: "Unable to save new category" });
+        res.status(500).json({ error: "Unable to save new category" });
       });
   }
 );
@@ -73,28 +69,24 @@ router.post(
 // @route DELETE api/categories/:id
 // @desc  Delete a Category
 // @access  Public
-router.delete(
-  "/:id",
-  /* async */ (req, res) => {
-    const category_id = req.params.id;
-    console.log("Received delete request for: " + category_id);
+// @parameters category_id
+router.delete("/:id", [check("category_id").isMongoId()], (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    console.log(errors);
+    return res.status(422).json({
+      error: errors
+        .array()
+        .map(e => e.param + ": " + e.msg)
+        .join(", ")
+    });
+  }
+  const category_id = req.params.id;
+  console.log("Received delete request for: " + category_id);
 
-    /*
-  try {
-    const categoryToDelete = await Category.findById(conversation_id);
-    if (!categoryToDelete) {
-      throw new Error("category " + conversation_id + " not found");
-    }
-    res.send({ success: true });
-  } catch (err) {
-    console.log(err);
-    res.status(404).json({ success: false });
-  }
-  */
-    Category.findById(category_id)
-      .then(item => item.remove().then(() => res.json({ success: true })))
-      .catch(err => res.status(404).json({ success: false }));
-  }
-);
+  Category.findById(category_id)
+    .then(item => item.remove().then(() => res.json({ success: true })))
+    .catch(err => res.status(404).json({ error: "category not found" }));
+});
 
 module.exports = router;

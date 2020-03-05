@@ -9,8 +9,9 @@ const Prompt = require("../../models/Prompt");
 const ObjectId = require("mongoose").Types.ObjectId;
 
 // @route   GET api/prompts
-// @desc    GET all Prompts
+// @desc    GET all Prompts (optionally limited to a category)
 // @access  Public
+// @parameters: [category_id]
 router.get("/", (req, res) => {
   console.log("GET request received for prompts with category_id of " + req.query.category_id);
   Prompt.find(req.query.category_id ? { category: req.query.category_id } : {})
@@ -23,8 +24,9 @@ router.get("/", (req, res) => {
 });
 
 // @route   GET api/prompts/random
-// @desc    GET a random Prompt
+// @desc    GET a random Prompt (optionally limited to a category)
 // @access  Public
+// @parameters: [category_id]
 router.get("/random", (req, res) => {
   const query = Prompt.find(req.query.category_id ? { category: req.query.category_id } : {});
 
@@ -73,7 +75,12 @@ router.post(
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       console.log(errors);
-      return res.status(422).json({ error: errors.array() });
+      return res.status(422).json({
+        error: errors
+          .array()
+          .map(e => e.param + ": " + e.msg, "")
+          .join(", ")
+      });
     }
     console.log("Request received: " + req.body.text);
     let newPrompt = new Prompt({
@@ -86,9 +93,9 @@ router.post(
       .catch(err => {
         console.log(err);
         if (err.code === 11000) {
-          res.json({ error: "Prompt already exists" });
+          res.status(409).json({ error: "Prompt already exists" });
         } else {
-          res.json({ error: "Error saving new prompt" });
+          res.status(500).json({ error: "Error saving new prompt" });
         }
       });
   }
