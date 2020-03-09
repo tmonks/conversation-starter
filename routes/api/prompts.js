@@ -26,9 +26,17 @@ router.get("/", (req, res) => {
 // @route   GET api/prompts/random
 // @desc    GET a random Prompt (optionally limited to a category)
 // @access  Public
-// @parameters: [category_id]
+// @parameters: [category_id], [last_prompt_id]
 router.get("/random", (req, res) => {
-  const query = Prompt.find(req.query.category_id ? { category: req.query.category_id } : {});
+  const queryParams = {};
+  if (req.query.category_id) {
+    queryParams.category = req.query.category_id;
+  }
+  // if last_prompt_id was provided, exclude it so it's not repeated
+  if (req.query.not_prompt_id) {
+    queryParams._id = { $ne: req.query.not_prompt_id };
+  }
+  const query = Prompt.find(queryParams);
 
   query
     .countDocuments()
