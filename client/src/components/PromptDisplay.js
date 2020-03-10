@@ -10,8 +10,8 @@ function PromptDisplay(props) {
           <Spinner style={{ width: "3rem", height: "3rem" }} />
         ) : (
           <div>
-            <p className="category-title">{props.isLoading ? "" : props.prompt.category.title}</p>
-            <h3 className="prompt-text">{props.isLoading ? "Loading..." : props.prompt.text}</h3>
+            <p className="category-title">{props.prompt ? props.prompt.category.title : ""}</p>
+            <h3 className="prompt-text">{props.prompt ? props.prompt.text : "Loading..."}</h3>
             <Button color="dark" size="lg" onClick={props.clickHandler}>
               Next
             </Button>

@@ -14,24 +14,45 @@ function App() {
   const [isLoadingPrompt, setIsLoadingPrompt] = useState(true);
   const [categories, setCategories] = useState([]);
   const [prompt, setPrompt] = useState({});
+  const [prompts, setPrompts] = useState([]);
+  const [currentPrompt, setCurrentPrompt] = useState(-1);
   const [currentCategoryId, setCurrentCategoryId] = useState(null);
 
   const getPrompt = () => {
-    const params = {};
-    if (currentCategoryId) {
-      params.category_id = currentCategoryId;
-    }
-    if (prompt._id) {
-      // send current prompt ID to avoid repeats
-      params.not_prompt_id = prompt._id;
-    }
-    console.log("Getting prompt with parameters: ");
-    console.log(params);
+    setCurrentPrompt(Math.floor(Math.random() * prompts.length));
+    // setIsLoadingPrompt(false);
+
+    //   const params = {};
+    //   if (currentCategoryId) {
+    //     params.category_id = currentCategoryId;
+    //   }
+    //   if (prompt._id) {
+    //     // send current prompt ID to avoid repeats
+    //     params.not_prompt_id = prompt._id;
+    //   }
+    //   console.log("Getting prompt with parameters: ");
+    //   console.log(params);
+    //   axios
+    //     .get("/api/prompts/random", { params })
+    //     // .get(currentCategoryId ? route + "category_id=" + currentCategoryId : route)
+    //     .then(res => {
+    //       setPrompt(res.data);
+    //       setIsLoadingPrompt(false);
+    //     })
+    //     .catch(err => {
+    //       console.log(err);
+    //     });
+  };
+
+  // Retrieve new prompts from the API
+  const getPrompts = () => {
+    let route = "/api/prompts" + (currentCategoryId ? "?category_id=" + currentCategoryId : "");
+    setIsLoadingPrompt(true);
     axios
-      .get("/api/prompts/random", { params })
-      // .get(currentCategoryId ? route + "category_id=" + currentCategoryId : route)
+      .get(route)
       .then(res => {
-        setPrompt(res.data);
+        setPrompts(res.data);
+        console.log("Retrieved " + res.data.length + " prompts");
         setIsLoadingPrompt(false);
       })
       .catch(err => {
@@ -44,17 +65,22 @@ function App() {
     setCurrentCategoryId(categoryId);
   };
 
-  // Get Prompt on load
+  // Get Prompts on load or whenever category is changed
+  useEffect(() => {
+    getPrompts();
+  }, [currentCategoryId]);
+
+  // Pick a new prompt when prompts are updated
   useEffect(() => {
     getPrompt();
-  }, []);
+  }, [prompts]);
 
   // Get Categories on load
   useEffect(() => {
     axios
       .get("/api/categories")
       .then(res => {
-        console.log(res.data);
+        console.log("Categories retrieved: ", res.data);
         setCategories(res.data);
         setIsLoadingCategories(false);
       })
@@ -64,9 +90,9 @@ function App() {
   }, []);
 
   // get a new prompt when a new category is selected
-  useEffect(() => {
-    getPrompt();
-  }, [currentCategoryId]);
+  // useEffect(() => {
+  //   getPrompts();
+  // }, [currentCategoryId]);
 
   return (
     <BrowserRouter>
@@ -84,7 +110,7 @@ function App() {
           render={props => (
             <PromptDisplay
               {...props}
-              prompt={prompt}
+              prompt={prompts[currentPrompt]}
               isLoading={isLoadingPrompt}
               clickHandler={getPrompt}
             />
