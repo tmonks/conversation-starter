@@ -5,15 +5,33 @@
 }
 
 .jumbotron {
+  position: relative;
   text-align: center;
   // margin: 2em;
   background-color: $card-background;
   max-width: 800px;
   min-height: 306px;
   margin: 0 auto;
+  transition: opacity 300ms;
+  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.5);
+  padding-top: auto;
+  padding-bottom: auto;
   // display: flex;
   // flex-direction: column;
   // justify-content: space-between;
+}
+
+.spinner-border {
+  height: 50px;
+  width: 50px;
+  position: absolute;
+  top: 50%;
+  margin-top: -25px;
+  margin-left: -25px;
+  border-width: 7px;
+}
+.loading {
+  opacity: 0.7;
 }
 
 .prompt-text {

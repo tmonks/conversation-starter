@@ -5,9 +5,9 @@ import { Jumbotron, Button, Spinner } from "reactstrap";
 function PromptDisplay(props) {
   return (
     <div className="jumbotron-container">
-      <Jumbotron>
+      <Jumbotron className={props.isLoading ? "loading" : ""}>
         {props.isLoading ? (
-          <Spinner style={{ width: "3rem", height: "3rem" }} />
+          <Spinner />
         ) : (
           <div>
             <p className="category-title">{props.prompt ? props.prompt.category.title : ""}</p>
