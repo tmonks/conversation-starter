@@ -18,7 +18,8 @@ function App() {
   const [currentCategoryId, setCurrentCategoryId] = useState(null);
 
   const nextPrompt = () => {
-    setCurrentPrompt(Math.floor(Math.random() * prompts.length));
+    // setCurrentPrompt(Math.floor(Math.random() * prompts.length));
+    setCurrentPrompt((currentPrompt + 1) % prompts.length);
   };
 
   // Retrieve new prompts from the API
@@ -50,7 +51,8 @@ function App() {
 
   // Select next prompt whenever prompts are updated
   useEffect(() => {
-    nextPrompt();
+    // nextPrompt();
+    setCurrentPrompt(0);
   }, [prompts]);
 
   // Get Categories on load
