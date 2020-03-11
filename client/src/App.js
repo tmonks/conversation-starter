@@ -78,20 +78,22 @@ function App() {
           updateCategory={updateCategory}
           currentCategoryId={currentCategoryId}
         />
-        <Route
-          exact
-          path="/"
-          render={props => (
-            <PromptDisplay
-              {...props}
-              prompt={prompts[currentPrompt]}
-              isLoading={isLoadingPrompt}
-              clickHandler={nextPrompt}
-            />
-          )}
-        />
-        <Route path="/about" component={About} />
-        <Route path="/add" render={props => <AddPrompt {...props} categories={categories} />} />
+        <div className="card-container">
+          <Route
+            exact
+            path="/"
+            render={props => (
+              <PromptDisplay
+                {...props}
+                prompt={prompts[currentPrompt]}
+                isLoading={isLoadingPrompt}
+                clickHandler={nextPrompt}
+              />
+            )}
+          />
+          <Route path="/about" component={About} />
+          <Route path="/add" render={props => <AddPrompt {...props} categories={categories} />} />
+        </div>
       </div>
     </BrowserRouter>
   );

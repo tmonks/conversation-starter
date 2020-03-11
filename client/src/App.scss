@@ -2,3 +2,17 @@ body {
   background-color: #00a8e8;
   padding-top: 100px;
 }
+
+.card-container {
+  padding: 0 2em;
+}
+
+@media screen and (max-width: 600px) {
+  // .jumbotron-container {
+  //   font-size: 0.5em;
+  // }
+
+  .prompt-text {
+    font-size: 1.25em;
+  }
+}
