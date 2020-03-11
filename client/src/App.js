@@ -13,35 +13,12 @@ function App() {
   const [isLoadingCategories, setIsLoadingCategories] = useState(true);
   const [isLoadingPrompt, setIsLoadingPrompt] = useState(true);
   const [categories, setCategories] = useState([]);
-  const [prompt, setPrompt] = useState({});
   const [prompts, setPrompts] = useState([]);
   const [currentPrompt, setCurrentPrompt] = useState(-1);
   const [currentCategoryId, setCurrentCategoryId] = useState(null);
 
-  const getPrompt = () => {
+  const nextPrompt = () => {
     setCurrentPrompt(Math.floor(Math.random() * prompts.length));
-    // setIsLoadingPrompt(false);
-
-    //   const params = {};
-    //   if (currentCategoryId) {
-    //     params.category_id = currentCategoryId;
-    //   }
-    //   if (prompt._id) {
-    //     // send current prompt ID to avoid repeats
-    //     params.not_prompt_id = prompt._id;
-    //   }
-    //   console.log("Getting prompt with parameters: ");
-    //   console.log(params);
-    //   axios
-    //     .get("/api/prompts/random", { params })
-    //     // .get(currentCategoryId ? route + "category_id=" + currentCategoryId : route)
-    //     .then(res => {
-    //       setPrompt(res.data);
-    //       setIsLoadingPrompt(false);
-    //     })
-    //     .catch(err => {
-    //       console.log(err);
-    //     });
   };
 
   // Retrieve new prompts from the API
@@ -60,6 +37,7 @@ function App() {
       });
   };
 
+  // Select a new category to filter prompts
   const updateCategory = categoryId => {
     console.log("Setting categoryId to " + categoryId);
     setCurrentCategoryId(categoryId);
@@ -70,9 +48,9 @@ function App() {
     getPrompts();
   }, [currentCategoryId]);
 
-  // Pick a new prompt when prompts are updated
+  // Select next prompt whenever prompts are updated
   useEffect(() => {
-    getPrompt();
+    nextPrompt();
   }, [prompts]);
 
   // Get Categories on load
@@ -89,18 +67,12 @@ function App() {
       });
   }, []);
 
-  // get a new prompt when a new category is selected
-  // useEffect(() => {
-  //   getPrompts();
-  // }, [currentCategoryId]);
-
   return (
     <BrowserRouter>
       <div className="App">
         <AppNavbar
           categories={categories}
           isLoading={isLoadingCategories}
-          // clickHandler={categoryId => setCurrentCategory(categoryId)}
           updateCategory={updateCategory}
           currentCategoryId={currentCategoryId}
         />
@@ -112,11 +84,10 @@ function App() {
               {...props}
               prompt={prompts[currentPrompt]}
               isLoading={isLoadingPrompt}
-              clickHandler={getPrompt}
+              clickHandler={nextPrompt}
             />
           )}
         />
-        {/* <PromptDisplay prompt={prompt} isLoading={isLoadingPrompt} clickHandler={getPrompt} /> */}
         <Route path="/about" component={About} />
         <Route path="/add" render={props => <AddPrompt {...props} categories={categories} />} />
       </div>
