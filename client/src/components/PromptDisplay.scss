@@ -1,31 +1,35 @@
 @import "./variables.scss";
 
-.jumbotron {
+.prompt-container {
   position: relative;
   text-align: center;
   // margin: 2em;
   background-color: $card-background;
-  max-width: 800px;
-  min-height: 306px;
+  max-width: 700px;
+  min-height: 300px;
   margin: 0 auto;
   transition: opacity 300ms;
   box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.5);
-  padding-top: auto;
-  padding-bottom: auto;
-  // display: flex;
-  // flex-direction: column;
-  // justify-content: space-between;
+  border-radius: 5px;
+  // padding-top: auto;
+  // padding-bottom: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  padding: 32px;
 }
 
 .spinner-border {
-  height: 50px;
-  width: 50px;
+  height: 100px;
+  width: 100px;
   position: absolute;
   top: 50%;
-  margin-top: -25px;
-  margin-left: -25px;
-  border-width: 7px;
+  left: 50%;
+  margin-top: -50px;
+  margin-left: -50px;
+  border-width: 15px;
 }
+
 .loading {
   opacity: 0.7;
 }
@@ -39,4 +43,22 @@
   color: orange;
   font-weight: bold;
   font-size: 1.3em;
+}
+
+@media screen and (max-width: 575px) {
+  .prompt-container {
+    min-height: 200px;
+  }
+
+  .next-button {
+    font-size: 1em;
+  }
+
+  .category-title {
+    font-size: 1em;
+  }
+
+  .prompt-text {
+    font-size: 1.25em;
+  }
 }
