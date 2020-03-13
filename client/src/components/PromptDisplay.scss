@@ -1,24 +1,5 @@
 @import "./variables.scss";
 
-.prompt-container {
-  position: relative;
-  text-align: center;
-  // margin: 2em;
-  background-color: $card-background;
-  max-width: 700px;
-  min-height: 300px;
-  margin: 0 auto;
-  transition: opacity 300ms;
-  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.5);
-  border-radius: 5px;
-  // padding-top: auto;
-  // padding-bottom: auto;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  padding: 32px;
-}
-
 .spinner-border {
   height: 100px;
   width: 100px;
@@ -35,23 +16,25 @@
 }
 
 .prompt-text {
-  padding-bottom: 1.5em;
+  padding-bottom: 1.25em;
 }
 
 .category-title {
   text-transform: uppercase;
-  color: orange;
+  // color: orange;
+  color: $accent-color;
   font-weight: bold;
   font-size: 1.3em;
 }
 
-@media screen and (max-width: 575px) {
+@media screen and (max-width: $breakpoint-sm) {
   .prompt-container {
     min-height: 200px;
   }
 
   .next-button {
     font-size: 1em;
+    padding: 4px 8px;
   }
 
   .category-title {

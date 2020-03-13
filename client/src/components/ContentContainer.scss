@@ -2,13 +2,56 @@
 
 .content-container {
   // text-align: center;
-  background-color: $card-background;
-  max-width: 800px;
+  position: relative;
+  background-color: $card-bg-color;
+  max-width: 700px;
+  min-height: 300px;
   margin: 0 auto;
   border-radius: 5px;
   padding: 32px;
+  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.5);
+  margin-top: 45px;
 
   h4 {
     text-align: center;
+  }
+}
+
+.center {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+/*
+.prompt-container {
+  position: relative;
+  text-align: center;
+  // margin: 2em;
+  background-color: $card-bg-color;
+  max-width: 700px;
+  min-height: 300px;
+  margin: 0 auto;
+  transition: opacity 300ms;
+  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.5);
+  border-radius: 5px;
+  // padding-top: auto;
+  // padding-bottom: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  padding: 32px;
+}
+*/
+
+@media screen and (max-width: $breakpoint-sm) {
+  .content-container {
+    min-height: 200px;
+    margin-top: 1em;
+  }
+
+  #promptText {
+    min-height: 150px;
   }
 }

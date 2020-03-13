@@ -16,6 +16,7 @@ import {
   DropdownMenu,
   DropdownItem
 } from "reactstrap";
+import "./AppNavbar.scss";
 
 function AppNavbar(props) {
   const [isOpen, setIsOpen] = useState(false);
@@ -64,7 +65,7 @@ function AppNavbar(props) {
 
   return (
     <div>
-      <Navbar color="dark" dark className="mb-5" expand="sm" fixed="top">
+      <Navbar dark expand="sm" fixed="top">
         <Container className="justify-content-between">
           <NavbarBrand href="/">Conversation Starter</NavbarBrand>
           {/* 
