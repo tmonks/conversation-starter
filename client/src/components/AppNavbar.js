@@ -67,7 +67,7 @@ function AppNavbar(props) {
     <div>
       <Navbar dark expand="sm" fixed="top">
         <Container className="justify-content-between">
-          <NavbarBrand href="/">Conversation Starter</NavbarBrand>
+          <NavbarBrand href="/">ChatterMonkey</NavbarBrand>
           {/* 
           <Dropdown isOpen={isOpen} toggle={toggle}>
             <DropdownToggle style={{ width: 150 }} caret>
