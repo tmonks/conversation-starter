@@ -7,7 +7,9 @@ function PromptDisplay(props) {
   return (
     <div className={"content-container center " + (props.isLoading ? "loading" : "")}>
       {props.isLoading ? (
-        <Spinner />
+        <div className="spinner-container">
+          <Spinner />
+        </div>
       ) : (
         <div>
           <p className="category-title">{props.prompt ? props.prompt.category.title : ""}</p>

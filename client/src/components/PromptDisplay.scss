@@ -1,5 +1,10 @@
 @import "./variables.scss";
 
+.spinner-container {
+  position: relative;
+  height: 100%;
+}
+
 .spinner-border {
   height: 100px;
   width: 100px;
@@ -17,15 +22,17 @@
 
 .prompt-text {
   padding-bottom: 1.25em;
+  font-size: 1.6em;
 }
 
 .category-title {
   text-transform: uppercase;
-  // color: orange;
   color: $accent-color;
-  font-weight: bold;
-  font-size: 1.3em;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
+  // font-weight: bold;
+  // font-size: 1.3em;
+  // font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Londrina Solid", cursive;
+  font-size: 1.5em;
 }
 
 @media screen and (max-width: $breakpoint-sm) {
@@ -34,12 +41,12 @@
   }
 
   .next-button {
-    font-size: 1em;
-    padding: 4px 8px;
+    font-size: 1.2em;
+    padding: 5px 10px;
   }
 
   .category-title {
-    font-size: 1em;
+    font-size: 1.5em;
   }
 
   .prompt-text {
