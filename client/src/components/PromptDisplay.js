@@ -1,7 +1,7 @@
 import React from "react";
 import "./PromptDisplay.scss";
 import "./ContentContainer.scss";
-import { Jumbotron, Button, Spinner } from "reactstrap";
+import { Button, Spinner } from "reactstrap";
 
 function PromptDisplay(props) {
   return (

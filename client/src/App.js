@@ -4,7 +4,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.scss";
 import AppNavbar from "./components/AppNavbar";
 import PromptDisplay from "./components/PromptDisplay";
-import Home from "./components/Home";
 import About from "./components/About";
 import AddPrompt from "./components/AddPrompt";
 import axios from "axios";
@@ -22,8 +21,14 @@ function App() {
     setCurrentPrompt((currentPrompt + 1) % prompts.length);
   };
 
-  // Retrieve new prompts from the API
-  const getPrompts = () => {
+  // Select a new category to filter prompts
+  const updateCategory = categoryId => {
+    console.log("Setting categoryId to " + categoryId);
+    setCurrentCategoryId(categoryId);
+  };
+
+  // Get Prompts on load or whenever category is changed
+  useEffect(() => {
     let route = "/api/prompts" + (currentCategoryId ? "?category_id=" + currentCategoryId : "");
     setIsLoadingPrompt(true);
     axios
@@ -36,17 +41,6 @@ function App() {
       .catch(err => {
         console.log(err);
       });
-  };
-
-  // Select a new category to filter prompts
-  const updateCategory = categoryId => {
-    console.log("Setting categoryId to " + categoryId);
-    setCurrentCategoryId(categoryId);
-  };
-
-  // Get Prompts on load or whenever category is changed
-  useEffect(() => {
-    getPrompts();
   }, [currentCategoryId]);
 
   // Select next prompt whenever prompts are updated

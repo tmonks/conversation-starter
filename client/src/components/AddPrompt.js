@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { Alert, Button, Form, FormGroup, Label, Input, FormText } from "reactstrap";
+import { Alert, Button, Form, FormGroup, Label, Input } from "reactstrap";
 import "./ContentContainer.scss";
 
 const AddPrompt = props => {

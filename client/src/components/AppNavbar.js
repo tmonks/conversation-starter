@@ -10,7 +10,6 @@ import {
   NavItem,
   NavLink,
   Container,
-  Dropdown,
   UncontrolledDropdown,
   DropdownToggle,
   DropdownMenu,
@@ -40,7 +39,10 @@ function AppNavbar(props) {
         <DropdownItem
           key="1"
           active={props.currentCategoryId === null ? true : false}
-          onClick={() => props.updateCategory(null)}
+          onClick={() => {
+            props.updateCategory(null);
+            closeMenu();
+          }}
         >
           All
         </DropdownItem>
