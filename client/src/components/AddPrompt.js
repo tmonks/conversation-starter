@@ -54,7 +54,16 @@ const AddPrompt = props => {
         <Form onSubmit={handleSubmit}>
           <FormGroup>
             <Label for="category">Category</Label>
-            <Input type="select" name="category" id="category" onChange={handleChangeCategory}>
+            <Input
+              type="select"
+              name="category"
+              id="category"
+              value={category || undefined}
+              onChange={handleChangeCategory}
+            >
+              {/* <option value="none" disabled>
+                Please Select
+              </option> */}
               {props.categories.map(cat => (
                 <option key={cat._id} value={cat._id}>
                   {cat.title}
