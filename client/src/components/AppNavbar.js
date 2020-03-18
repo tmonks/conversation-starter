@@ -29,7 +29,7 @@ function AppNavbar(props) {
   };
 
   const categoriesDropdown = (
-    <UncontrolledDropdown nav>
+    <UncontrolledDropdown nav active>
       <DropdownToggle nav caret>
         {props.currentCategoryId === null
           ? "All Categories"
@@ -70,52 +70,11 @@ function AppNavbar(props) {
       <Navbar dark expand="sm" fixed="top">
         <Container className="justify-content-between">
           <NavbarBrand href="/">ChatterMonkey</NavbarBrand>
-          {/* 
-          <Dropdown isOpen={isOpen} toggle={toggle}>
-            <DropdownToggle style={{ width: 150 }} caret>
-              {props.currentCategoryId
-                ? props.categories.find(x => x._id === props.currentCategoryId).title
-                : "All Categories"}
-            </DropdownToggle>
-            <DropdownMenu>
-              <DropdownItem
-                key="1"
-                active={props.currentCategoryId === null ? true : false}
-                onClick={() => props.updateCategory(null)}
-                tag={Link}
-                to="/"
-              >
-                All Categories
-              </DropdownItem>
-              {!props.isLoading &&
-                props.categories.map(cat => {
-                  return (
-                    <DropdownItem
-                      key={cat._id}
-                      active={props.currentCategoryId === cat._id ? true : false}
-                      onClick={() => props.updateCategory(cat._id)}
-                      tag={Link}
-                      to="/"
-                    >
-                      {cat.title}
-                    </DropdownItem>
-                  );
-                })}
-              <DropdownItem divider />
-              <DropdownItem tag={Link} to="/add">
-                Add a Prompt
-              </DropdownItem>
-              <DropdownItem tag={Link} to="/about">
-                About
-              </DropdownItem>
-            </DropdownMenu>
-          </Dropdown> 
-          */}
-
           <NavbarToggler onClick={toggle} />
           <Collapse className="flex-grow-0" isOpen={isOpen} navbar>
             <Nav navbar>
-              {useLocation().pathname === "/" ? (
+              {/* Show the Categories Dropdown if on the Home route */
+              useLocation().pathname === "/" ? (
                 categoriesDropdown
               ) : (
                 <NavItem>
@@ -126,12 +85,22 @@ function AppNavbar(props) {
               )}
 
               <NavItem>
-                <NavLink tag={Link} to="/about" onClick={closeMenu}>
+                <NavLink
+                  tag={Link}
+                  to="/about"
+                  onClick={closeMenu}
+                  active={useLocation().pathname === "/about"}
+                >
                   About
                 </NavLink>
               </NavItem>
               <NavItem>
-                <NavLink tag={Link} to="/add" onClick={closeMenu}>
+                <NavLink
+                  tag={Link}
+                  to="/add"
+                  onClick={closeMenu}
+                  active={useLocation().pathname === "/add"}
+                >
                   Add
                 </NavLink>
               </NavItem>

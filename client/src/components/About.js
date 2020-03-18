@@ -3,7 +3,7 @@ import "./ContentContainer.scss";
 
 const About = () => {
   return (
-    <div className="content-container">
+    <div className="content-container about">
       <h4>About</h4>
       <p>
         Conversation starters are a great way to get your kids talking, to add some variety to your
