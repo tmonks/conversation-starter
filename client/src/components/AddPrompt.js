@@ -8,6 +8,7 @@ const AddPrompt = props => {
   const [text, setText] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+  const [clientErrorMessage, setClientErrorMessage] = useState("");
 
   const handleChangeCategory = event => {
     setCategory(event.target.value);
@@ -19,23 +20,28 @@ const AddPrompt = props => {
 
   const handleSubmit = event => {
     event.preventDefault();
-    axios
-      .post("/api/prompts", { category_id: category || props.categories[0]._id, text })
-      .then(res => {
-        console.log(res.data);
-        setErrorMessage("");
-        setText("");
-        setSuccessMessage("Thank you, your conversation prompt has been added successfully.");
-      })
-      .catch(err => {
-        console.log("error caught in catch statement");
-        console.log(err.response);
-        setSuccessMessage("");
-        setErrorMessage(
-          "Sorry, we were unable to save your conversation prompt. " + err.response.data.error ||
-            "Unknown error"
-        );
-      });
+    if (text.length < 25) {
+      setClientErrorMessage("Prompt text should be at least 25 characters");
+    } else {
+      setClientErrorMessage("");
+      axios
+        .post("/api/prompts", { category_id: category || props.categories[0]._id, text })
+        .then(res => {
+          console.log(res.data);
+          setErrorMessage("");
+          setText("");
+          setSuccessMessage("Thank you, your conversation prompt has been added successfully.");
+        })
+        .catch(err => {
+          console.log("error caught in catch statement");
+          console.log(err.response);
+          setSuccessMessage("");
+          setErrorMessage(
+            "Sorry, we were unable to save your conversation prompt. " + err.response.data.error ||
+              "Unknown error"
+          );
+        });
+    }
   };
 
   const handleClickAnother = () => {
@@ -46,6 +52,7 @@ const AddPrompt = props => {
   return (
     <div className="content-container">
       <h4>Add a Prompt</h4>
+      {clientErrorMessage && <Alert color="danger">{clientErrorMessage}</Alert>}
       {errorMessage && <Alert color="danger">{errorMessage}</Alert>}
       {successMessage && <Alert color="success">{successMessage}</Alert>}
       {errorMessage || successMessage ? (
