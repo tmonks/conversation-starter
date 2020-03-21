@@ -11,12 +11,12 @@ const ObjectId = require("mongoose").Types.ObjectId;
 // @route   GET api/prompts
 // @desc    GET all Prompts (optionally limited to a category)
 // @access  Public
-// @parameters: [category_id]
+// @parameters: [category_id], [reported_only]
 router.get("/", (req, res) => {
   console.log("GET request received for prompts with category_id of " + req.query.category_id);
   Prompt.find({ 
       ...req.query.category_id && { category: req.query.category_id }, 
-      reported: false
+      reported: req.query.reported_only === "true" ? true : false
     })
     .populate("category", "title -_id")
     .then(results => res.send(results))
