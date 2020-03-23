@@ -2,6 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const helmet = require("helmet");
+const path = require('path');
 
 const categories = require("./routes/api/categories");
 const prompts = require("./routes/api/prompts");
@@ -31,9 +32,19 @@ app.use(express.urlencoded({ extended: false }));
 app.use("/api/categories", categories);
 app.use("/api/prompts", prompts);
 
-// Set up helmet middleware for security
-//  load helmet defaults
+// Serve static assets if in production
+if (process.env.NODE_ENV === 'production') {
+  // Set static folder
+  app.use(express.static('client/build'));
+
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+  });
+}
+
+// Set up helmet middleware for security (using helmet defaults)
 app.use(helmet());
+
 //  set Content Security Policy to only load local resources
 app.use(
   helmet.contentSecurityPolicy({
@@ -44,9 +55,9 @@ app.use(
 );
 
 // Default root route
-app.get("/", (req, res) => {
-  res.sendFile(process.cwd() + "/views/index.html");
-});
+// app.get("/", (req, res) => {
+//   res.sendFile(process.cwd() + "/views/index.html");
+// });
 
 // Start app after successful database connection
 db.once("open", () => {
