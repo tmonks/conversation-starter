@@ -11,10 +11,13 @@ const ObjectId = require("mongoose").Types.ObjectId;
 // @route   GET api/prompts
 // @desc    GET all Prompts (optionally limited to a category)
 // @access  Public
-// @parameters: [category_id]
+// @parameters: [category_id], [reported_only]
 router.get("/", (req, res) => {
   console.log("GET request received for prompts with category_id of " + req.query.category_id);
-  Prompt.find(req.query.category_id ? { category: req.query.category_id } : {})
+  Prompt.find({ 
+      ...req.query.category_id && { category: req.query.category_id }, 
+      reported: req.query.reported_only === "true" ? true : false
+    })
     .populate("category", "title -_id")
     .then(results => res.send(results))
     .catch(err => {
@@ -28,14 +31,11 @@ router.get("/", (req, res) => {
 // @access  Public
 // @parameters: [category_id], [last_prompt_id]
 router.get("/random", (req, res) => {
-  const queryParams = {};
-  if (req.query.category_id) {
-    queryParams.category = req.query.category_id;
-  }
-  // if last_prompt_id was provided, exclude it so it's not repeated
-  if (req.query.not_prompt_id) {
-    queryParams._id = { $ne: req.query.not_prompt_id };
-  }
+  const queryParams = {
+    ...req.query.category_id && { category: req.query.category_id },
+    ...req.query.not_prompt_id && { _id: {$ne: req.query.not_prompt_id }},
+    reported: false
+  };
   const query = Prompt.find(queryParams);
 
   query
@@ -73,7 +73,7 @@ router.post(
   [
     check("text")
       .trim()
-      .isLength({ min: 20, max: 300 })
+      .isLength({ min: 25, max: 300 })
       .escape(),
     check("category_id")
       .trim()
