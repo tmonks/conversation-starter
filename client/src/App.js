@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter, Route } from "react-router-dom";
+import ReactGA from 'react-ga';
+import { createBrowserHistory } from 'history';
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.scss";
 import AppNavbar from "./components/AppNavbar";
@@ -15,6 +17,17 @@ function App() {
   const [prompts, setPrompts] = useState([]);
   const [currentPrompt, setCurrentPrompt] = useState(-1);
   const [currentCategoryId, setCurrentCategoryId] = useState(null);
+
+  // initialize Google Analytics
+  const trackingId = 'UA-161823848-1';
+  ReactGA.initialize(trackingId);
+  const history = createBrowserHistory();
+
+  // initialize Google Analytics page view tracking
+  history.listen(location => {
+    ReactGA.set({ page: location.pathname }); // Update the user's current page
+    ReactGA.pageview(location.pathname); // Record a pageview for the given page
+  })
 
   const nextPrompt = () => {
     // setCurrentPrompt(Math.floor(Math.random() * prompts.length));
@@ -64,7 +77,7 @@ function App() {
   }, []);
 
   return (
-    <BrowserRouter>
+    <BrowserRouter history={history}>
       <div className="App">
         <AppNavbar
           categories={categories}
