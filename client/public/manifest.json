@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Chatter Monkey",
+  "name": "ChatterMonkey Conversation Starters",
   "icons": [
     {
       "src": "favicon.ico",

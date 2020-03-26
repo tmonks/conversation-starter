@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter, Route } from "react-router-dom";
-import ReactGA from 'react-ga';
-import { createBrowserHistory } from 'history';
+import { Router, Route } from "react-router-dom";
+import ReactGA from "react-ga";
+import { createBrowserHistory } from "history";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.scss";
 import AppNavbar from "./components/AppNavbar";
@@ -9,6 +9,14 @@ import PromptDisplay from "./components/PromptDisplay";
 import About from "./components/About";
 import AddPrompt from "./components/AddPrompt";
 import axios from "axios";
+
+const history = createBrowserHistory();
+
+history.listen(location => {
+  ReactGA.set({ page: location.pathname }); // Update the user's current page
+  ReactGA.pageview(location.pathname); // Record a pageview for the given page
+  console.log("Logged to GA: " + location.pathname);
+});
 
 function App() {
   const [isLoadingCategories, setIsLoadingCategories] = useState(true);
@@ -19,15 +27,12 @@ function App() {
   const [currentCategoryId, setCurrentCategoryId] = useState(null);
 
   // initialize Google Analytics
-  const trackingId = 'UA-161823848-1';
-  ReactGA.initialize(trackingId);
-  const history = createBrowserHistory();
+  useEffect(() => {
+    ReactGA.initialize("UA-161823848-1");
 
-  // initialize Google Analytics page view tracking
-  history.listen(location => {
-    ReactGA.set({ page: location.pathname }); // Update the user's current page
-    ReactGA.pageview(location.pathname); // Record a pageview for the given page
-  })
+    // report initial page view
+    ReactGA.pageview(window.location.pathname);
+  }, []);
 
   const nextPrompt = () => {
     // setCurrentPrompt(Math.floor(Math.random() * prompts.length));
@@ -77,7 +82,7 @@ function App() {
   }, []);
 
   return (
-    <BrowserRouter history={history}>
+    <Router history={history}>
       <div className="App">
         <AppNavbar
           categories={categories}
@@ -102,7 +107,7 @@ function App() {
           <Route path="/add" render={props => <AddPrompt {...props} categories={categories} />} />
         </div>
       </div>
-    </BrowserRouter>
+    </Router>
   );
 }
 

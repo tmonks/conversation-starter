@@ -15,9 +15,7 @@ const About = () => {
       </p>
       <p>Developed by Tom Monks. Please contact me with any feedback or suggestions.&nbsp;</p>
       <p>
-        <a href="http://tommonks.net/#contactSection" target="_blank">
-          http://tommonks.net
-        </a>
+        <a href="http://tommonks.net/#contactSection">http://tommonks.net</a>
       </p>
     </div>
   );
