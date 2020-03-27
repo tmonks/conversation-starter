@@ -35,7 +35,7 @@ function AppNavbar(props) {
           ? "All Categories"
           : props.categories.find(cat => cat._id === props.currentCategoryId).title}
       </DropdownToggle>
-      <DropdownMenu>
+      <DropdownMenu right>
         <DropdownItem
           key="1"
           active={props.currentCategoryId === null ? true : false}
@@ -46,6 +46,7 @@ function AppNavbar(props) {
         >
           All
         </DropdownItem>
+        <div className="dropdown-divider" />
         {props.categories.map(cat => {
           return (
             <DropdownItem
@@ -83,7 +84,6 @@ function AppNavbar(props) {
                   </NavLink>
                 </NavItem>
               )}
-
               <NavItem>
                 <NavLink
                   tag={Link}

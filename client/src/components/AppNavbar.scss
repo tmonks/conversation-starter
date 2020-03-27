@@ -5,9 +5,17 @@
 }
 
 .navbar-brand {
-  font-family: 'Londrina Solid', cursive;
+  font-family: "Londrina Solid", cursive;
   font-size: 2em;
   padding: 0px;
+}
+
+@media screen and (max-width: $breakpoint-sm) {
+  // right-align menu items and add separators on collapsed menu
+  .nav-link {
+    text-align: right;
+    border-top: 1px solid #555;
+  }
 }
 
 /*

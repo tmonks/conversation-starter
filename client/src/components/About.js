@@ -19,7 +19,6 @@ const About = () => {
         <OutboundLink eventLabel="My Website" to="http://tommonks.net/" target="_blank">
           http://tommonks.net
         </OutboundLink>
-        {/* <a href="http://tommonks.net/#contactSection">http://tommonks.net</a> */}
       </p>
     </div>
   );
