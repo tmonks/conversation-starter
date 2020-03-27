@@ -1,4 +1,5 @@
 import React from "react";
+import { OutboundLink } from "react-ga";
 import "./ContentContainer.scss";
 
 const About = () => {
@@ -15,7 +16,10 @@ const About = () => {
       </p>
       <p>Developed by Tom Monks. Please contact me with any feedback or suggestions.&nbsp;</p>
       <p>
-        <a href="http://tommonks.net/#contactSection">http://tommonks.net</a>
+        <OutboundLink eventLabel="My Website" to="http://tommonks.net/" target="_blank">
+          http://tommonks.net
+        </OutboundLink>
+        {/* <a href="http://tommonks.net/#contactSection">http://tommonks.net</a> */}
       </p>
     </div>
   );

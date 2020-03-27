@@ -37,6 +37,11 @@ function App() {
   const nextPrompt = () => {
     // setCurrentPrompt(Math.floor(Math.random() * prompts.length));
     setCurrentPrompt((currentPrompt + 1) % prompts.length);
+    ReactGA.event({
+      category: "Button",
+      action: "Click",
+      label: "Next"
+    });
   };
 
   // Select a new category to filter prompts

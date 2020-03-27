@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { Alert, Button, Form, FormGroup, Label, Input } from "reactstrap";
 import "./ContentContainer.scss";
+import ReactGA from "react-ga";
 
 const AddPrompt = props => {
   const [category, setCategory] = useState(null);
@@ -31,6 +32,10 @@ const AddPrompt = props => {
           setErrorMessage("");
           setText("");
           setSuccessMessage("Thank you, your conversation prompt has been added successfully.");
+          ReactGA.event({
+            category: "Form",
+            action: "Successful Submit"
+          });
         })
         .catch(err => {
           console.log("error caught in catch statement");
@@ -40,6 +45,11 @@ const AddPrompt = props => {
             "Sorry, we were unable to save your conversation prompt. " + err.response.data.error ||
               "Unknown error"
           );
+          ReactGA.event({
+            category: "Form",
+            action: "Unsuccessful Submit",
+            label: err.response.data.error
+          });
         });
     }
   };
