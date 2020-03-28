@@ -1,21 +1,23 @@
 import React, { useState, useEffect } from "react";
 import { Router, Route } from "react-router-dom";
+import axios from "axios";
 import ReactGA from "react-ga";
 import { createBrowserHistory } from "history";
-import "bootstrap/dist/css/bootstrap.min.css";
+
+// Bootstrap needs to be loaded before custom CSS
+import "bootstrap/dist/css/bootstrap.min.css"; 
 import "./App.scss";
+
 import AppNavbar from "./components/AppNavbar";
 import PromptDisplay from "./components/PromptDisplay";
 import About from "./components/About";
 import AddPrompt from "./components/AddPrompt";
-import axios from "axios";
 
 const history = createBrowserHistory();
 
 history.listen(location => {
   ReactGA.set({ page: location.pathname }); // Update the user's current page
   ReactGA.pageview(location.pathname); // Record a pageview for the given page
-  console.log("Logged to GA: " + location.pathname);
 });
 
 function App() {
@@ -29,14 +31,13 @@ function App() {
   // initialize Google Analytics
   useEffect(() => {
     ReactGA.initialize("UA-161823848-1");
-
     // report initial page view
     ReactGA.pageview(window.location.pathname);
   }, []);
 
   const nextPrompt = () => {
-    // setCurrentPrompt(Math.floor(Math.random() * prompts.length));
     setCurrentPrompt((currentPrompt + 1) % prompts.length);
+    // report an event to GA
     ReactGA.event({
       category: "Button",
       action: "Click",
@@ -46,7 +47,6 @@ function App() {
 
   // Select a new category to filter prompts
   const updateCategory = categoryId => {
-    console.log("Setting categoryId to " + categoryId);
     setCurrentCategoryId(categoryId);
   };
 
@@ -58,7 +58,6 @@ function App() {
       .get(route)
       .then(res => {
         setPrompts(res.data);
-        console.log("Retrieved " + res.data.length + " prompts");
         setIsLoadingPrompt(false);
       })
       .catch(err => {
@@ -66,9 +65,8 @@ function App() {
       });
   }, [currentCategoryId]);
 
-  // Select next prompt whenever prompts are updated
+  // Reset current prompt whenever prompts are updated
   useEffect(() => {
-    // nextPrompt();
     setCurrentPrompt(0);
   }, [prompts]);
 
@@ -77,7 +75,6 @@ function App() {
     axios
       .get("/api/categories")
       .then(res => {
-        console.log("Categories retrieved: ", res.data);
         setCategories(res.data);
         setIsLoadingCategories(false);
       })
@@ -96,6 +93,8 @@ function App() {
           currentCategoryId={currentCategoryId}
         />
         <div className="card-container">
+
+          {/* Home page with PromptDisplay */}
           <Route
             exact
             path="/"
@@ -108,7 +107,11 @@ function App() {
               />
             )}
           />
+
+          {/* About page */}
           <Route path="/about" component={About} />
+
+          {/* Add prompt form */}
           <Route path="/add" render={props => <AddPrompt {...props} categories={categories} />} />
         </div>
       </div>

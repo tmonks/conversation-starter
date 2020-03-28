@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { Alert, Button, Form, FormGroup, Label, Input } from "reactstrap";
-import "./ContentContainer.scss";
 import ReactGA from "react-ga";
+import "./ContentContainer.scss";
 
 const AddPrompt = props => {
   const [category, setCategory] = useState(null);
@@ -28,7 +28,6 @@ const AddPrompt = props => {
       axios
         .post("/api/prompts", { category_id: category || props.categories[0]._id, text })
         .then(res => {
-          console.log(res.data);
           setErrorMessage("");
           setText("");
           setSuccessMessage("Thank you, your conversation prompt has been added successfully.");
@@ -38,7 +37,6 @@ const AddPrompt = props => {
           });
         })
         .catch(err => {
-          console.log("error caught in catch statement");
           console.log(err.response);
           setSuccessMessage("");
           setErrorMessage(
@@ -78,9 +76,6 @@ const AddPrompt = props => {
               value={category || undefined}
               onChange={handleChangeCategory}
             >
-              {/* <option value="none" disabled>
-                Please Select
-              </option> */}
               {props.categories.map(cat => (
                 <option key={cat._id} value={cat._id}>
                   {cat.title}

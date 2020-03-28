@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { useLocation } from "react-router-dom";
-import { Link } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 import {
   Collapse,
   Navbar,
@@ -20,6 +19,7 @@ import "./AppNavbar.scss";
 function AppNavbar(props) {
   const [isOpen, setIsOpen] = useState(false);
 
+  /* toggle menu open/close */
   const toggle = () => {
     setIsOpen(!isOpen);
   };
@@ -31,6 +31,7 @@ function AppNavbar(props) {
   const categoriesDropdown = (
     <UncontrolledDropdown nav active>
       <DropdownToggle nav caret>
+        {/* If current category isn't set, show 'All Categories' */}
         {props.currentCategoryId === null
           ? "All Categories"
           : props.categories.find(cat => cat._id === props.currentCategoryId).title}
@@ -44,7 +45,7 @@ function AppNavbar(props) {
             closeMenu();
           }}
         >
-          All
+          All Categories
         </DropdownItem>
         <div className="dropdown-divider" />
         {props.categories.map(cat => {
@@ -78,6 +79,7 @@ function AppNavbar(props) {
               useLocation().pathname === "/" ? (
                 categoriesDropdown
               ) : (
+                /* Show a link to 'Home' on other routes */
                 <NavItem>
                   <NavLink onClick={closeMenu} tag={Link} to="/">
                     Home

@@ -17,6 +17,7 @@
   }
 }
 
+/* center card content */
 .center {
   text-align: center;
   display: flex;
@@ -46,10 +47,6 @@
     width: 90%;
     margin: 0;
     padding: 1.5em 1em;
-  }
-
-  #promptText {
-    min-height: 150px;
   }
 
   .about p {

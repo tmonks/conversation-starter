@@ -1,12 +1,13 @@
 import React from "react";
+import { Button, Spinner } from "reactstrap";
 import "./PromptDisplay.scss";
 import "./ContentContainer.scss";
-import { Button, Spinner } from "reactstrap";
 
 function PromptDisplay(props) {
   return (
     <div className={"content-container center " + (props.isLoading ? "loading" : "")}>
-      {props.isLoading ? (
+      {/* If loading, show the spinner */
+      props.isLoading ? (
         <div className="spinner-container">
           <Spinner />
         </div>
